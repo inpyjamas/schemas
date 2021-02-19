@@ -216,8 +216,8 @@
           }
         }
       },
-      "required": ["databaseName", "ipAllowList", "name"],
-      "title": "Databasis"
+      "required": ["name"],
+      "title": "Databases"
     },
     "EnvVar": {
       "type": "object",

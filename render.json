@@ -1,0 +1,35 @@
+{
+  "id": "https://ff6347.ninja/schemas/myschema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "JSON Schema for render.yaml IAC files",
+  "description": "",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["services"],
+  "properties": {
+    "databases": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/databases" }
+    },
+    "services": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/services"
+      }
+    }
+  },
+  "definitions": {
+    "databases": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" }
+      }
+    },
+    "services": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" }
+      }
+    }
+  }
+}

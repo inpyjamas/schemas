@@ -1,0 +1,325 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/Welcome2",
+  "definitions": {
+    "Welcome2": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "services": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Service"
+          }
+        },
+        "databases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Databasis"
+          }
+        },
+        "envVarGroups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EnvVarGroup"
+          }
+        }
+      },
+      "required": ["databases", "envVarGroups", "services"],
+      "title": "Welcome2"
+    },
+    "Databasis": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "databaseName": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "ipAllowList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IPAllowList"
+          }
+        }
+      },
+      "required": ["databaseName", "ipAllowList", "name"],
+      "title": "Databasis"
+    },
+    "IPAllowList": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": ["description", "source"],
+      "title": "IPAllowList"
+    },
+    "EnvVarGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "envVars": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EnvVarGroupEnvVar"
+          }
+        }
+      },
+      "required": ["envVars", "name"],
+      "title": "EnvVarGroup"
+    },
+    "EnvVarGroupEnvVar": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/definitions/Value"
+        },
+        "generateValue": {
+          "type": "boolean"
+        },
+        "sync": {
+          "type": "boolean"
+        }
+      },
+      "required": ["key"],
+      "title": "EnvVarGroupEnvVar"
+    },
+    "Service": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "env": {
+          "type": "string"
+        },
+        "repo": {
+          "type": "string",
+          "format": "uri",
+          "qt-uri-protocols": ["https"],
+          "qt-uri-extensions": [".git"]
+        },
+        "region": {
+          "type": "string"
+        },
+        "plan": {
+          "type": "string"
+        },
+        "branch": {
+          "type": "string"
+        },
+        "dockerCommand": {
+          "type": "string"
+        },
+        "healthCheckPath": {
+          "type": "string"
+        },
+        "envVars": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceEnvVar"
+          }
+        },
+        "disk": {
+          "$ref": "#/definitions/Disk"
+        },
+        "numInstances": {
+          "type": "integer"
+        },
+        "buildCommand": {
+          "type": "string"
+        },
+        "startCommand": {
+          "type": "string"
+        },
+        "domains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "autoDeploy": {
+          "type": "boolean"
+        },
+        "schedule": {
+          "type": "string"
+        },
+        "dockerfilePath": {
+          "type": "string"
+        },
+        "dockerContext": {
+          "type": "string"
+        },
+        "staticPublishPath": {
+          "type": "string"
+        },
+        "pullRequestPreviewsEnabled": {
+          "type": "boolean"
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Header"
+          }
+        },
+        "routes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Route"
+          }
+        }
+      },
+      "required": ["env", "name", "type"],
+      "title": "Service"
+    },
+    "Disk": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "mountPath": {
+          "type": "string"
+        },
+        "sizeGB": {
+          "type": "integer"
+        }
+      },
+      "required": ["mountPath", "name", "sizeGB"],
+      "title": "Disk"
+    },
+    "ServiceEnvVar": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "fromService": {
+          "$ref": "#/definitions/FromService"
+        },
+        "fromGroup": {
+          "type": "string"
+        },
+        "generateValue": {
+          "type": "boolean"
+        },
+        "sync": {
+          "type": "boolean"
+        },
+        "value": {
+          "type": "string"
+        },
+        "fromDatabase": {
+          "$ref": "#/definitions/FromDatabase"
+        }
+      },
+      "required": [],
+      "title": "ServiceEnvVar"
+    },
+    "FromDatabase": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "property"],
+      "title": "FromDatabase"
+    },
+    "FromService": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "envVarKey": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "type"],
+      "title": "FromService"
+    },
+    "Header": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "path", "value"],
+      "title": "Header"
+    },
+    "Route": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "destination": {
+          "type": "string"
+        }
+      },
+      "required": ["destination", "source", "type"],
+      "title": "Route"
+    },
+    "Value": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "string",
+          "format": "uri",
+          "qt-uri-protocols": ["https"]
+        }
+      ],
+      "title": "Value"
+    }
+  }
+}

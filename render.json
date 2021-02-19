@@ -49,6 +49,7 @@
         },
         "env": {
           "type": "string",
+          "description": "The service environment must be one of the following: `docker`, `elixir`, `go`, `node`, `python`, `ruby`, `rust`, `static`",
           "enum": [
             "docker",
             "elixir",
@@ -69,16 +70,18 @@
         "repo": {
           "type": "string",
           "format": "uri",
-          "qt-uri-protocols": ["https"],
+          "qt-uri-protocols": ["https", "http"],
           "qt-uri-extensions": [".git"],
           "description": "Services in render.yaml can omit a repo. If a repo is missing, it is assumed to be the repo the YAML file is in. The specified repo must be accessible to you. You can also omit a branch. Render will use the repo’s default branch if it’s omitted."
         },
         "plan": { "$ref": "#/definitions/Plan" },
         "branch": {
-          "type": "string"
+          "type": "string",
+          "description": "Services in render.yaml can omit a repo. If a repo is missing, it is assumed to be the repo the YAML file is in. The specified repo must be accessible to you. You can also omit a branch. Render will use the repo’s default branch if it’s omitted."
         },
         "dockerCommand": {
-          "type": "string"
+          "type": "string",
+          "description": "For Docker services, Render users the command in your Dockerfile. This can be overridden by specifying dockerCommand in your service definition."
         },
         "healthCheckPath": {
           "type": "string",
@@ -89,22 +92,28 @@
           "description": "You can set the number of instances you want for your service by setting the `numInstances` field."
         },
         "buildCommand": {
-          "type": "string"
+          "type": "string",
+          "description": "e.g. `npm run build`"
         },
         "startCommand": {
-          "type": "string"
+          "type": "string",
+          "description": "e.g. `npm start` or `node index.js`"
         },
         "domains": {
           "type": "array",
+          "description": "You can specify custom domains for your service in the domains field. If a domain is an apex domain, a www. subdomain will be added automatically and will redirect to the apex domain. If a domain is a www. subdomain, the apex domain will be added automatically and will redirect to the www. domain.  Every web service is always accessible at its .onrender.com subdomain.",
           "items": {
-            "type": "string"
+            "type": "string",
+            "format": "hostname"
           }
         },
         "autoDeploy": {
-          "type": "boolean"
+          "type": "boolean",
+          "optional": true
         },
         "schedule": {
-          "type": "string"
+          "type": "string",
+          "description": "Cron jobs must have a `schedule`."
         },
         "dockerfilePath": {
           "type": "string",
@@ -118,7 +127,8 @@
           "type": "string"
         },
         "pullRequestPreviewsEnabled": {
-          "type": "boolean"
+          "type": "boolean",
+          "optional": true
         },
         "disk": {
           "$ref": "#/definitions/Disk"
@@ -146,6 +156,7 @@
     },
     "Header": {
       "type": "object",
+      "description": "You can specify HTTP headers for your static site with the headers field like you can in the dashboard.",
       "additionalProperties": false,
       "properties": {
         "path": {
@@ -163,6 +174,7 @@
     },
     "Route": {
       "type": "object",
+      "description": "You can specify redirect and rewrite routes for your static site with the routes field just like in the dashboard.",
       "additionalProperties": false,
       "properties": {
         "type": {
@@ -212,7 +224,8 @@
       "additionalProperties": false,
       "properties": {
         "key": {
-          "type": "string"
+          "type": "string",
+          "optional": false
         },
         "fromService": {
           "$ref": "#/definitions/FromService"
@@ -255,7 +268,8 @@
       "additionalProperties": false,
       "properties": {
         "source": {
-          "type": "string"
+          "type": "string",
+          "format": "ipv4"
         },
         "description": {
           "type": "string"
@@ -303,6 +317,7 @@
     },
     "Disk": {
       "type": "object",
+      "description": "You can specify whether your service has a Disk attached to it. A disk must have a `name`, `mountPath`, and (optionally) a size in GB (`sizeGB`).",
       "additionalProperties": false,
       "properties": {
         "name": {
@@ -312,10 +327,11 @@
           "type": "string"
         },
         "sizeGB": {
-          "type": "integer"
+          "type": "integer",
+          "optional": true
         }
       },
-      "required": ["mountPath", "name", "sizeGB"],
+      "required": ["mountPath", "name"],
       "title": "Disk"
     },
     "Plan": {

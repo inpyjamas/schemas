@@ -36,7 +36,6 @@
         },
         "env": {
           "type": "string",
-          "optional": false,
           "enum": [
             "docker",
             "elixir",
@@ -53,8 +52,104 @@
           "type": "string",
           "enum": ["frankfurt", "oregon"],
           "default": "oregon"
+        },
+        "repo": {
+          "type": "string",
+          "format": "uri",
+          "qt-uri-protocols": ["https"],
+          "qt-uri-extensions": [".git"]
+        },
+        "plan": {
+          "type": "string"
+        },
+        "branch": {
+          "type": "string"
+        },
+        "dockerCommand": {
+          "type": "string"
+        },
+        "healthCheckPath": {
+          "type": "string"
+        },
+        "numInstances": {
+          "type": "integer"
+        },
+        "buildCommand": {
+          "type": "string"
+        },
+        "startCommand": {
+          "type": "string"
+        },
+        "envVars": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServiceEnvVar"
+          }
         }
       }
+    },
+    "ServiceEnvVar": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "fromService": {
+          "$ref": "#/definitions/FromService"
+        },
+        "fromGroup": {
+          "type": "string"
+        },
+        "generateValue": {
+          "type": "boolean"
+        },
+        "sync": {
+          "type": "boolean"
+        },
+        "value": {
+          "type": "string"
+        },
+        "fromDatabase": {
+          "$ref": "#/definitions/FromDatabase"
+        }
+      },
+      "required": [],
+      "title": "ServiceEnvVar"
+    },
+    "FromDatabase": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "property"],
+      "title": "FromDatabase"
+    },
+    "FromService": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "property": {
+          "type": "string"
+        },
+        "envVarKey": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "type"],
+      "title": "FromService"
     }
   }
 }

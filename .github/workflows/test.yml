@@ -1,6 +1,0 @@
-on:
-  workflow_dispatch:
-
-jobs:
-  - name: foo
-    run: echo "foo"

@@ -64,8 +64,7 @@
         "region": {
           "type": "string",
           "enum": ["frankfurt", "oregon"],
-          "default": "oregon",
-          "description": "A service can be deployed in a specific `region` by adding an optional `region` field. If specified, the `region` field must be one of following: `oregon`, `frankfurt`. If not specified, the region defaults to oregon."
+          "description": "A service can be deployed in a specific `region` by adding an optional `region` field. If specified, the `region` field must be one of following: `oregon`, `frankfurt`. If not specified, the region defaults to oregon. Static sites can not have a region"
         },
         "repo": {
           "type": "string",

@@ -1,5 +1,0 @@
-services:
-  - name: foo
-    type: web
-    env: docker
-    region: oregon

@@ -1,5 +1,5 @@
 {
-  "id": "https://ff6347.ninja/schemas/myschema.json",
+  "id": "https://ff6347.ninja/schemas/render.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "JSON Schema for render.yaml IAC files",
   "description": "",
@@ -9,30 +9,43 @@
   "properties": {
     "databases": {
       "type": "array",
-      "items": { "$ref": "#/definitions/databases" }
+      "items": { "$ref": "#/definitions/Databases" }
     },
     "services": {
       "type": "array",
       "items": {
         "$ref": "#/definitions/services"
       }
+    },
+    "envVarGroups": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/EnvVarGroup"
+      }
     }
   },
   "definitions": {
-    "databases": {
-      "type": "object",
-      "properties": {
-        "name": { "type": "string" }
-      }
-    },
     "services": {
       "type": "object",
       "required": ["name", "type", "env"],
+      "description": "Each service should have a `type`, `name`, and `env`. Cron jobs must have a `schedule`. Each service should have a `startCommand` unless it’s a Docker service. For Docker services, Render users the command in your Dockerfile. This can be overridden by specifying dockerCommand in your service definition.",
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "cron" } } },
+          "then": { "properties": { "schedule": { "optional": false } } }
+        },
+        {
+          "if": { "properties": { "env": { "const": "docker" } } },
+          "then": { "properties": { "startCommand": { "optional": true } } },
+          "else": { "properties": { "startCommand": { "optional": false } } }
+        }
+      ],
       "properties": {
         "name": { "type": "string" },
         "type": {
           "type": "string",
-          "enum": ["pserv", "web", "worker", "cron"]
+          "enum": ["pserv", "web", "worker", "cron"],
+          "description": "The service type must be one of the following: 'web' for a web service, 'worker' for a background worker, 'pserv' for a private service, 'cron' for a cron job. A static site is not considered a service type. It is a web service with a static environment."
         },
         "env": {
           "type": "string",
@@ -47,21 +60,20 @@
             "static"
           ]
         },
-        "schedule": { "type": "string" },
         "region": {
           "type": "string",
           "enum": ["frankfurt", "oregon"],
-          "default": "oregon"
+          "default": "oregon",
+          "description": "A service can be deployed in a specific `region` by adding an optional `region` field. If specified, the `region` field must be one of following: `oregon`, `frankfurt`. If not specified, the region defaults to oregon."
         },
         "repo": {
           "type": "string",
           "format": "uri",
           "qt-uri-protocols": ["https"],
-          "qt-uri-extensions": [".git"]
+          "qt-uri-extensions": [".git"],
+          "description": "Services in render.yaml can omit a repo. If a repo is missing, it is assumed to be the repo the YAML file is in. The specified repo must be accessible to you. You can also omit a branch. Render will use the repo’s default branch if it’s omitted."
         },
-        "plan": {
-          "type": "string"
-        },
+        "plan": { "$ref": "#/definitions/Plan" },
         "branch": {
           "type": "string"
         },
@@ -69,10 +81,12 @@
           "type": "string"
         },
         "healthCheckPath": {
-          "type": "string"
+          "type": "string",
+          "description": "You can set a health check path for your HTTP service for zero downtime deploys by adding the `healthCheckPath` field."
         },
         "numInstances": {
-          "type": "integer"
+          "type": "integer",
+          "description": "You can set the number of instances you want for your service by setting the `numInstances` field."
         },
         "buildCommand": {
           "type": "string"
@@ -80,15 +94,120 @@
         "startCommand": {
           "type": "string"
         },
-        "envVars": {
+        "domains": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ServiceEnvVar"
+            "type": "string"
+          }
+        },
+        "autoDeploy": {
+          "type": "boolean"
+        },
+        "schedule": {
+          "type": "string"
+        },
+        "dockerfilePath": {
+          "type": "string",
+          "description": "If your service is Docker-based, i.e. it has env: docker, then you can optionally specify the dockerfilePath and dockerContext. These are relative to your repo root. This is useful for mono-repo Docker services."
+        },
+        "dockerContext": {
+          "type": "string",
+          "description": "If your service is Docker-based, i.e. it has env: docker, then you can optionally specify the dockerfilePath and dockerContext. These are relative to your repo root. This is useful for mono-repo Docker services."
+        },
+        "staticPublishPath": {
+          "type": "string"
+        },
+        "pullRequestPreviewsEnabled": {
+          "type": "boolean"
+        },
+        "disk": {
+          "$ref": "#/definitions/Disk"
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Header"
+          }
+        },
+        "routes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Route"
+          }
+        },
+        "envVars": {
+          "type": "array",
+          "description": "You can define environment groups in your YAML file. Environment groups can have zero or more environment variables. The environment variables in an environment group cannot depend on other resources, unlike the environment variables in a service. However, you can still generate environment variables within an environment group.",
+          "items": {
+            "$ref": "#/definitions/EnvVar"
           }
         }
       }
     },
-    "ServiceEnvVar": {
+    "Header": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": ["name", "path", "value"],
+      "title": "Header"
+    },
+    "Route": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "destination": {
+          "type": "string"
+        }
+      },
+      "required": ["destination", "source", "type"],
+      "title": "Route"
+    },
+    "Databases": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "You can create databases by defining them in render.yaml. A database only needs a name — all other fields are optional. You can also set the PostgreSQL databaseName, user, and plan.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "plan": {
+          "$ref": "#/definitions/Plan"
+        },
+        "databaseName": {
+          "type": "string"
+        },
+        "user": {
+          "type": "string"
+        },
+        "ipAllowList": {
+          "optional": true,
+          "description": "You can specify which IP addresses can access your database from outside Render’s network using an ipAllowList. optional (defaults to allow all)",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/IPAllowList"
+          }
+        }
+      },
+      "required": ["databaseName", "ipAllowList", "name"],
+      "title": "Databasis"
+    },
+    "EnvVar": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
@@ -131,6 +250,20 @@
       "required": ["name", "property"],
       "title": "FromDatabase"
     },
+    "IPAllowList": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": ["description", "source"],
+      "title": "IPAllowList"
+    },
     "FromService": {
       "type": "object",
       "additionalProperties": false,
@@ -150,6 +283,52 @@
       },
       "required": ["name", "type"],
       "title": "FromService"
+    },
+    "EnvVarGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "envVars": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EnvVar"
+          }
+        }
+      },
+      "required": ["envVars", "name"],
+      "title": "EnvVarGroup"
+    },
+    "Disk": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "mountPath": {
+          "type": "string"
+        },
+        "sizeGB": {
+          "type": "integer"
+        }
+      },
+      "required": ["mountPath", "name", "sizeGB"],
+      "title": "Disk"
+    },
+    "Plan": {
+      "type": "string",
+      "description": "The service plan can be specified by name and is case insensitive. If it’s omitted, the plan will default to the “Starter” plan. The following values are valid for plans: `Starter`, `Starter Plus`, `Standard`, `Standard Plus`, `Pro`, `Pro Plus`",
+      "enum": [
+        "Starter",
+        "Starter Plus",
+        "Standard",
+        "Standard Plus",
+        "Pro",
+        "Pro Plus"
+      ]
     }
   }
 }

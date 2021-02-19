@@ -15,7 +15,7 @@
         "databases": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Databasis"
+            "$ref": "#/definitions/Databases"
           }
         },
         "envVarGroups": {
@@ -28,7 +28,7 @@
       "required": ["databases", "envVarGroups", "services"],
       "title": "Welcome2"
     },
-    "Databasis": {
+    "Databases": {
       "type": "object",
       "additionalProperties": false,
       "properties": {

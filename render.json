@@ -27,6 +27,7 @@
     },
     "services": {
       "type": "object",
+      "required": ["name", "type", "env"],
       "properties": {
         "name": { "type": "string" },
         "type": {

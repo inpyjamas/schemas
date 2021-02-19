@@ -11,7 +11,7 @@ Beware. There might be bugs, but it serves me well at the moment. If you find an
 2. You need to add the url of the schema to your `settings.json` like this:
     ```json
     {
-      "https://render-com-iac-yaml-schema.onrender.com/render.com.json": ["render.yaml"]
+      "https://schemas.onrender.com/render.com.json": ["render.yaml"]
     }
     ```
 3. Reload your window

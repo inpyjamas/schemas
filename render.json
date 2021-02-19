@@ -14,7 +14,7 @@
     "services": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/services"
+        "$ref": "#/definitions/Services"
       }
     },
     "envVarGroups": {
@@ -25,7 +25,7 @@
     }
   },
   "definitions": {
-    "services": {
+    "Services": {
       "type": "object",
       "required": ["name", "type", "env"],
       "description": "Each service should have a `type`, `name`, and `env`. Cron jobs must have a `schedule`. Each service should have a `startCommand` unless it’s a Docker service. For Docker services, Render users the command in your Dockerfile. This can be overridden by specifying dockerCommand in your service definition.",

@@ -1,0 +1,25 @@
+{
+  "name": "@inpyjamas/render.com-iac-yaml-schema",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.11ty.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inpyjamas/render.com-iac-yaml-schema.git"
+  },
+  "keywords": [],
+  "author": "Fabian Morón Zirfas <fabianmoronzirfas@protonmail.ch> (https://fabianmoronzirfas.me)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/inpyjamas/render.com-iac-yaml-schema/issues"
+  },
+  "homepage": "https://github.com/inpyjamas/render.com-iac-yaml-schema#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "0.11.1"
+  }
+}

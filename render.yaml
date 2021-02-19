@@ -11,4 +11,5 @@ services:
   - name: render.com-iac-yaml-schema
     type: web
     env: static
-    staticPublishPath: ./
+    staticPublishPath: _site/
+    buildCommand: npm run build

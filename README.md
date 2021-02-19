@@ -1,14 +1,14 @@
-# JSONSchema for render.yaml Infrastructure as Code (IAC)
+# JSONSchema for render.yaml
 
+Beware. There might be bugs, but it serves me well at the moment. Take a look at the [full spec on render.com](https://render.com/docs/yaml-spec). If you find any problems feel free to first open an [issue](https://github.com/inpyjamas/render.com-iac-yaml-schema/issues).
 ## Usage in VSCode
 
 1. You need to install and enable the YAML extension [redhat.vscode-yaml](https://github.com/redhat-developer/vscode-yaml)
-2. you need to add the url of the schema to your `settings.json` like this:
+2. You need to add the url of the schema to your `settings.json` like this:
     ```json
     {
-      "https://raw.githubusercontent.com/inpyjamas/render.com-iac-yaml-schema/main/render.com.json": ["render.yaml"]
+      "https://render-com-iac-yaml-schema.onrender.com/render.com.json": ["render.yaml"]
     }
     ```
 3. Reload your window
 4. Let's go
-

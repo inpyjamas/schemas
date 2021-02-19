@@ -8,8 +8,7 @@
 # 4. Let's go
 
 services:
-  - name: vscode-render-yaml-schema
+  - name: render.com-iac-yaml-schema
     type: web
     env: static
-    region: frankfurt
     staticPublishPath: ./

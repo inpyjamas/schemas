@@ -1,5 +1,7 @@
 # Schema for render.yaml 
 
+![](./misc/screenrecord.gif)
+
 1. You need to install and enable the YAML extension [redhat.vscode-yaml](https://github.com/redhat-developer/vscode-yaml)
 2. you need to add the url of the schema to your `settings.json` like this:
     ```json

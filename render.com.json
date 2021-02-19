@@ -1,5 +1,5 @@
 {
-  "id": "https://ff6347.ninja/schemas/render.json",
+  "id": "dev.inpyjamas.schemas.render.com.json",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "JSON Schema for render.yaml IAC files",
   "description": "",
@@ -338,12 +338,12 @@
       "type": "string",
       "description": "The service plan can be specified by name and is case insensitive. If it’s omitted, the plan will default to the “Starter” plan. The following values are valid for plans: `Starter`, `Starter Plus`, `Standard`, `Standard Plus`, `Pro`, `Pro Plus`",
       "enum": [
-        "Starter",
-        "Starter Plus",
-        "Standard",
-        "Standard Plus",
-        "Pro",
-        "Pro Plus"
+        "starter",
+        "starter plus",
+        "standard",
+        "standard plus",
+        "pro",
+        "pro plus"
       ]
     }
   }

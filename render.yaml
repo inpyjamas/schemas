@@ -1,5 +1,15 @@
+#
+#
+#
 # 1. You need to install and enable YAML from read hat redhat.vscode-yaml
 # 2. you need to add the url of the schema to your settings.json like this:
 # "https://raw.githubusercontent.com/ff6347/vscode-render-yaml-schema/main/render.json": ["render.yaml"]
-# 3. Reload your winddow
+# 3. Reload your window
 # 4. Let's go
+
+services:
+  - name: vscode-render-yaml-schema
+    type: web
+    env: static
+    region: frankfurt
+    staticPublishPath: ./

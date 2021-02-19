@@ -1,3 +1,4 @@
-
-
-
+services:
+  - name: foo
+    type: web
+    env: docker

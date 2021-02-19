@@ -28,7 +28,31 @@
     "services": {
       "type": "object",
       "properties": {
-        "name": { "type": "string" }
+        "name": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["pserv", "web", "worker", "cron"]
+        },
+        "env": {
+          "type": "string",
+          "optional": false,
+          "enum": [
+            "docker",
+            "elixir",
+            "go",
+            "node",
+            "python",
+            "ruby",
+            "rust",
+            "static"
+          ]
+        },
+        "schedule": { "type": "string" },
+        "region": {
+          "type": "string",
+          "enum": ["frankfurt", "oregon"],
+          "default": "oregon"
+        }
       }
     }
   }

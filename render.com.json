@@ -62,9 +62,7 @@
           ]
         },
         "region": {
-          "type": "string",
-          "enum": ["frankfurt", "oregon"],
-          "description": "A service can be deployed in a specific `region` by adding an optional `region` field. If specified, the `region` field must be one of following: `oregon`, `frankfurt`. If not specified, the region defaults to oregon. Static sites can not have a region"
+          "$ref": "#/definitions/Region"
         },
         "repo": {
           "type": "string",
@@ -189,6 +187,11 @@
       "required": ["destination", "source", "type"],
       "title": "Route"
     },
+    "Region": {
+      "type": "string",
+      "enum": ["frankfurt", "oregon"],
+      "description": "A service can be deployed in a specific `region` by adding an optional `region` field. If specified, the `region` field must be one of following: `oregon`, `frankfurt`. If not specified, the region defaults to oregon. Static sites can not have a region"
+    },
     "Databases": {
       "type": "object",
       "additionalProperties": false,
@@ -202,6 +205,9 @@
         },
         "databaseName": {
           "type": "string"
+        },
+        "region": {
+          "$ref": "#/definitions/Region"
         },
         "user": {
           "type": "string"

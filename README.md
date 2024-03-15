@@ -1,5 +1,10 @@
 # JSONSchema
 
+>!NOTE: Render published their own jsonschema https://render.com/schema/render.yaml.json 
+So mine is deprecated. 
+
+---
+
 Beware. There might be bugs, but it serves me well at the moment. If you find any problems feel free to first open an [issue](https://github.com/inpyjamas/schemas/issues).
 
 ## render.yaml

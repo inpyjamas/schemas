@@ -1,6 +1,7 @@
 # JSONSchema
 
->!NOTE: Render published their own jsonschema https://render.com/schema/render.yaml.json 
+>[!NOTE]
+> Render published their own jsonschema https://render.com/schema/render.yaml.json 
 So mine is deprecated. 
 
 ---
